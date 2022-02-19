@@ -1,0 +1,189 @@
+:root {
+  --top-margin-top: 30px;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+body {
+  width: 100%;
+  user-select: none;
+  margin: var(--top-margin-top) 0 0 0;
+  height: calc(100vh - var(--top-margin-top));
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url(../images/backgrounds.jpg);
+}
+#content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  #options {
+    width: 300px;
+    height: 50px;
+    border: none;
+    outline: none;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    backdrop-filter: blur(1px);
+    background-color: #0000006b;
+    &:hover {
+      background-color: #0000005b;
+    }
+  }
+  #start {
+    width: 150px;
+    height: 50px;
+    cursor: pointer;
+    border-radius: 1em;
+    background-color: yellow;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:hover {
+      background-color: rgb(199, 199, 0);
+    }
+  }
+  #game {
+    > iframe {
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      position: absolute;
+    }
+  }
+  #load {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    height: 100%;
+    display: flex;
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    background-color: #000000c2;
+    .loading {
+      width: 2.5em;
+      height: 2.5em;
+      position: relative;
+      transform: rotate(165deg);
+      &:before,
+      &:after {
+        top: 50%;
+        left: 50%;
+        content: "";
+        width: 0.5em;
+        height: 0.5em;
+        display: block;
+        position: absolute;
+        border-radius: 0.25em;
+        transform: translate(-50%, -50%);
+      }
+      &:before {
+        animation: before 2s infinite;
+      }
+      &:after {
+        animation: after 2s infinite;
+      }
+      @keyframes before {
+        0% {
+          width: 0.5em;
+          box-shadow: 1em -0.5em rgba(225, 20, 98, 0.75),
+            -1em 0.5em rgba(111, 202, 220, 0.75);
+        }
+        35% {
+          width: 2.5em;
+          box-shadow: 0 -0.5em rgba(225, 20, 98, 0.75),
+            0 0.5em rgba(111, 202, 220, 0.75);
+        }
+        70% {
+          width: 0.5em;
+          box-shadow: -1em -0.5em rgba(225, 20, 98, 0.75),
+            1em 0.5em rgba(111, 202, 220, 0.75);
+        }
+        100% {
+          box-shadow: 1em -0.5em rgba(225, 20, 98, 0.75),
+            -1em 0.5em rgba(111, 202, 220, 0.75);
+        }
+      }
+      @keyframes after {
+        0% {
+          height: 0.5em;
+          box-shadow: 0.5em 1em rgba(61, 184, 143, 0.75),
+            -0.5em -1em rgba(233, 169, 32, 0.75);
+        }
+        35% {
+          height: 2.5em;
+          box-shadow: 0.5em 0 rgba(61, 184, 143, 0.75),
+            -0.5em 0 rgba(233, 169, 32, 0.75);
+        }
+        70% {
+          height: 0.5em;
+          box-shadow: 0.5em -1em rgba(61, 184, 143, 0.75),
+            -0.5em 1em rgba(233, 169, 32, 0.75);
+        }
+        100% {
+          box-shadow: 0.5em 1em rgba(61, 184, 143, 0.75),
+            -0.5em -1em rgba(233, 169, 32, 0.75);
+        }
+      }
+    }
+  }
+}
+
+#container {
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  padding: 0 10px;
+  position: absolute;
+  background-color: #663300;
+  height: var(--top-margin-top);
+  nav {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    #buttons {
+      float: right;
+      width: 150px;
+      height: 100%;
+      line-height: 100%;
+      > * {
+        width: 33%;
+        float: left;
+        height: 100%;
+        display: flex;
+        cursor: pointer;
+        color: #ff9900;
+        align-items: center;
+        justify-content: center;
+      }
+      > :not(#close):hover {
+        user-select: none;
+        background-color: #4e2700;
+      }
+      #close {
+        user-select: none;
+        &:hover {
+          background-color: #b30000;
+        }
+      }
+    }
+  }
+}
