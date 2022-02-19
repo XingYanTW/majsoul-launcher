@@ -1,0 +1,20 @@
+{
+  "name": "majsoul-launcher",
+  "version": "1.0.0",
+  "description": "majsoul-launcher",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-packager . --out=dist/win --icon=icon.ico --overwrite"
+  },
+  "author": "xingyan",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^17.0.1"
+  },
+  "dependencies": {
+    "@electron/remote": "^2.0.4",
+    "electron-packager": "^15.4.0",
+    "jquery": "^3.6.0"
+  }
+}
