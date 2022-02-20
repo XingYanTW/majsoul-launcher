@@ -176,7 +176,8 @@ kanbanList.map((d, index) => {
   _.addEventListener("click", () => {
     if (isPlaying(kanbanAudio)) {
       clearTimeout(kanbanTimeOut);
-      kanbanAudio = new Audio(d?.chat?.[random(0, d.chat.length - 1)]?.audio);
+      let data = d.chat[random(0, d.chat.length - 1)];
+      kanbanAudio = new Audio(data.audio);
       kanbanAudio.play();
       kanbanAudio.addEventListener("canplay", () => {
         kanbanTimeOut = setTimeout(
