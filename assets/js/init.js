@@ -156,19 +156,17 @@ kanban.innerHTML = kanbanList
 
 let kanbanTimeOut = -1,
   kanbanAudio = new Audio(),
-  kanbanNow = 0;
+  kanbanNow = -1;
 
 const kanbanTimeOutFunc = () => {
+  ++kanbanNow < kanbanList.length ? kanbanNow : (kanbanNow = 0);
   kanban.querySelector(`.kanban-img-${kanbanNow}`)?.classList.add("now");
   kanban
     .querySelector(
-      `.kanban-img-${kanbanNow - 1 < 0 ? kanbanList.length : kanbanNow - 1}`
+      `.kanban-img-${(kanbanNow - 1 < 0 ? kanbanList.length : kanbanNow) - 1}`
     )
     ?.classList.remove("now");
-  return setTimeout(() => {
-    ++kanbanNow <= kanbanList.length ? kanbanNow : (kanbanNow = 0);
-    kanbanTimeOut = kanbanTimeOutFunc();
-  }, 1e3 * 60);
+  return setTimeout(() => (kanbanTimeOut = kanbanTimeOutFunc()), 1e3);
 };
 
 kanbanTimeOut = kanbanTimeOutFunc();
