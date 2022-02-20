@@ -6,16 +6,29 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "pack": "electron-packager . --out=dist/win --icon=icon.ico --overwrite"
+    "pack": "electron-builder --dir",
+    "build": "electron-builder"
   },
-  "author": "xingyan",
-  "license": "ISC",
+  "author": "monkey",
+  "license": "MIT",
   "devDependencies": {
     "electron": "^17.0.1"
   },
-  "dependencies": {
-    "@electron/remote": "^2.0.4",
-    "electron-packager": "^15.4.0",
-    "jquery": "^3.6.0"
+  "build": {
+    "productName": "Majsoul launcher",
+    "appId": "com.leon.MajsoulLauncher",
+    "copyright": "monkey-a3510377",
+    "directories": {
+      "output": "dist"
+    },
+    "mac": {
+      "icon": "./icon.ico"
+    },
+    "linux": {
+      "icon": "./icon.ico"
+    },
+    "win": {
+      "icon": "./icon.ico"
+    }
   }
 }
