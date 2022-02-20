@@ -33,4 +33,4 @@ jobs:
         # Artifact name
         name: majsoul-launcher
         # Destination path
-        path: dist/
+        path: ~/dist/
