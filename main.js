@@ -3,6 +3,8 @@
 // 控制应用生命周期和创建原生浏览器窗口的模组
 const { app, BrowserWindow } = require('electron')
 const { ipcMain } = require('electron')
+const {browserModuleNames} = require("@electron/remote/dist/src/common/module-names");
+
 
 function createWindow () {
     // 创建浏览器窗口
@@ -13,12 +15,16 @@ function createWindow () {
             nodeIntegration: true,
             contextIsolation: false,
             enableRemoteModule: true
+
         },
-        frame: false
+        frame: false,
+        transparent: true
     })
 
     // 加载 index.html
     mainWindow.loadFile('index.html')
+
+    mainWindow.webContents.setFrameRate(240)
 
     // 打开开发工具
     // mainWindow.webContents.openDevTools()
@@ -35,6 +41,7 @@ app.whenReady().then(() => {
         // 打开的窗口，那么程序会重新创建一个窗口。
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
     })
+
 })
 
 // 除了 macOS 外，当所有窗口都被关闭的时候退出程序。 因此，通常对程序和它们在

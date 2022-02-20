@@ -1,8 +1,17 @@
 document.getElementById('start').addEventListener('click', startgame);
 
-var value = document.getElementById('options').value;
-
 function startgame () {
-    document.getElementById('content').style.display = 'none';
-    document.getElementById('jpgame').innerHTML = "<embed id='game' type='text/html' src='https://game.mahjongsoul.com/index.html'>"
+    var str = document.getElementById('selects').innerText;
+    console.log(str)
+    if(str==='JP'){
+        document.getElementById('gamediv').innerHTML = "<iframe id='game' src='https://game.mahjongsoul.com/index.html'>"
+        document.getElementById('content').style.display = 'none';
+    }else if(str==='TW'){
+        document.getElementById('gamediv').innerHTML = "<iframe id='game' src='https://game.maj-soul.com/1/'>"
+        document.getElementById('content').style.display = 'none';
+    }else{
+        document.getElementById('errorwindow').style.display = 'block';
+        document.getElementById('errormessage').innerText = 'Please Select Game Server';
+    }
+
 }
