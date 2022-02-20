@@ -166,7 +166,7 @@ const kanbanTimeOutFunc = () => {
       `.kanban-img-${(kanbanNow - 1 < 0 ? kanbanList.length : kanbanNow) - 1}`
     )
     ?.classList.remove("now");
-  return setTimeout(() => (kanbanTimeOut = kanbanTimeOutFunc()), 1e3);
+  return setTimeout(() => (kanbanTimeOut = kanbanTimeOutFunc()), 1e3 * 30);
 };
 
 kanbanTimeOut = kanbanTimeOutFunc();
@@ -176,9 +176,14 @@ kanbanList.map((d, index) => {
   _.addEventListener("click", () => {
     if (isPlaying(kanbanAudio)) {
       clearTimeout(kanbanTimeOut);
-      kanbanTimeOut = kanbanTimeOutFunc();
       kanbanAudio = new Audio(d?.chat?.[random(0, d.chat.length - 1)]?.audio);
       kanbanAudio.play();
+      kanbanAudio.addEventListener("canplay", () => {
+        kanbanTimeOut = setTimeout(
+          () => (kanbanTimeOut = kanbanTimeOutFunc()),
+          1e3 * (30 + ~~kanbanAudio.duration)
+        );
+      });
     }
   });
 });
