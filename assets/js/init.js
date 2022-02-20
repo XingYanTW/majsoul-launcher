@@ -155,20 +155,20 @@ kanban.innerHTML = kanbanList
   .join("");
 
 let kanbanTimeOut = -1,
-  kanbanAudio = new Audio();
+  kanbanAudio = new Audio(),
+  kanbanNow = 0;
 
-const kanbanTimeOutFunc = (i = 0) => {
-  kanban.querySelector(`.kanban-img-${i}`)?.classList.add("now");
+const kanbanTimeOutFunc = () => {
+  kanban.querySelector(`.kanban-img-${kanbanNow}`)?.classList.add("now");
   kanban
-    .querySelector(`.kanban-img-${i - 1 < 0 ? kanbanList.length : i - 1}`)
+    .querySelector(
+      `.kanban-img-${kanbanNow - 1 < 0 ? kanbanList.length : kanbanNow - 1}`
+    )
     ?.classList.remove("now");
-  return setTimeout(
-    () =>
-      (kanbanTimeOut = kanbanTimeOutFunc(
-        ++i <= kanbanList.length ? i : (i = 0)
-      )),
-    1e3 * 60
-  );
+  return setTimeout(() => {
+    ++kanbanNow <= kanbanList.length ? kanbanNow : (kanbanNow = 0);
+    kanbanTimeOut = kanbanTimeOutFunc();
+  }, 1e3 * 60);
 };
 
 kanbanTimeOut = kanbanTimeOutFunc();
@@ -178,8 +178,43 @@ kanbanList.map((d, index) => {
   _.addEventListener("click", () => {
     if (isPlaying(kanbanAudio)) {
       clearTimeout(kanbanTimeOut);
+      kanbanTimeOut = kanbanTimeOutFunc();
       kanbanAudio = new Audio(d?.chat?.[random(0, d.chat.length - 1)]?.audio);
       kanbanAudio.play();
     }
   });
 });
+
+const options = document.getElementById("options");
+const option = options.querySelectorAll(".option>*");
+const gameEl = document.getElementById("game");
+
+document.getElementById("start").addEventListener("click", () => {
+  gameEl.classList.add("playing");
+  kanbanAudio.pause();
+  gameEl.innerHTML = `<div id="load"><div class="loading"></div></div><iframe class="gameIng" type="text/html" src="https://game.mahjongsoul.com/index.html">`;
+});
+document.addEventListener(
+  "keydown",
+  (e) => {
+    console.log(e.code);
+    switch (e.code) {
+      case "F11":
+        if (document.fullscreenEnabled) document.exitFullscreen();
+        else document.querySelector("#game iframe")?.requestFullscreen();
+        break;
+    }
+  },
+  false
+);
+
+option.forEach((el) =>
+  el.addEventListener("click", (el) => {
+    options.querySelector(".this").innerHTML = el.target.innerHTML;
+    option.forEach((el) => el.classList.remove("active"));
+    el.target.classList.add("active");
+  })
+);
+options.addEventListener("click", () =>
+  options.classList.toggle("show-options")
+);
