@@ -1,11 +1,6 @@
-// main.js
-
-// 控制应用生命周期和创建原生浏览器窗口的模组
-const { app, BrowserWindow } = require("electron");
-const { ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
 
 function createWindow() {
-  // 创建浏览器窗口
   const mainWindow = new BrowserWindow({
     width: 1280,
     height: 750,
@@ -32,7 +27,7 @@ app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
 
-ipcMain.on("BrowserWindow", function (event, args) {
+ipcMain.on("BrowserWindow", function (_event, args) {
   if (args === "maximize")
     BrowserWindow.getFocusedWindow().isMaximized()
       ? BrowserWindow.getFocusedWindow().unmaximize()

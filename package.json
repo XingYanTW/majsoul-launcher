@@ -2,6 +2,7 @@
   "name": "majsoul-launcher",
   "version": "1.0.0",
   "description": "majsoul-launcher",
+  "type": "commonjs",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
