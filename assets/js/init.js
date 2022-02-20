@@ -201,14 +201,24 @@ options.querySelector("div.option").innerHTML = Object.entries(gameWeb)
   .map(([tag, data]) => `<div tag="${tag}">${data.destination}</div>`)
   .join("");
 
+const containerBreak = document.querySelector("#container #buttons .break");
 const option = options.querySelectorAll(".option>*");
 const gameEl = document.getElementById("game");
+const startEl = document.getElementById("start");
+const errorEl = document.querySelector("div.error");
 
-document.getElementById("start").addEventListener("click", () => {
+startEl.addEventListener("click", () => {
+  let tag = optionThis.getAttribute("tag");
+  if (!tag) {
+    errorEl.querySelector(".msg").innerText = "請選取遊玩伺服器";
+    return errorEl.classList.add("show");
+  }
+
+  containerBreak.classList.remove("none");
   gameEl.classList.add("playing");
   kanbanAudio.pause();
   gameEl.innerHTML = `<div id="load"><div class="loading"></div></div><iframe class="gameIng" type="text/html" src="${
-    gameWeb[optionThis.getAttribute("tag")]?.url || gameWeb["TW"].url
+    gameWeb[tag]?.url || gameWeb["TW"].url
   }">`;
 });
 document.addEventListener(
@@ -247,3 +257,14 @@ option.forEach((el) =>
 options.addEventListener("click", () =>
   options.classList.toggle("show-options")
 );
+
+errorEl
+  .querySelector(".close")
+  .addEventListener("click", () =>
+    document.querySelector("div.error").classList.remove("show")
+  );
+containerBreak.addEventListener("click", () => {
+  gameEl.innerHTML = "";
+  gameEl.classList.remove("playing");
+  containerBreak.classList.add("none");
+});
