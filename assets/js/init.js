@@ -201,7 +201,6 @@ document.getElementById("start").addEventListener("click", () => {
 document.addEventListener(
   "keydown",
   (e) => {
-    console.log(e.code);
     switch (e.code) {
       case "F11":
         if (document.fullscreenEnabled) document.exitFullscreen();
@@ -212,9 +211,13 @@ document.addEventListener(
   false
 );
 
+if (localStorage.getItem("area"))
+  options.querySelector(".this").innerText = localStorage.getItem("area");
+
 option.forEach((el) =>
   el.addEventListener("click", (el) => {
     options.querySelector(".this").innerHTML = el.target.innerHTML;
+    localStorage.setItem("area", el.target.innerText);
     option.forEach((el) => el.classList.remove("active"));
     el.target.classList.add("active");
   })

@@ -1,17 +1,19 @@
 const { ipcRenderer } = require("electron");
 
-document.getElementById("close").addEventListener("click", closeWindow);
-document.getElementById("minimize").addEventListener("click", minimizeWindow);
-document.getElementById("maximize").addEventListener("click", maximizeWindow);
+document
+  .getElementById("close")
+  .addEventListener("click", function closeWindow() {
+    ipcRenderer.send("BrowserWindow", "close");
+  });
 
-function closeWindow() {
-  ipcRenderer.send("BrowserWindow", "close");
-}
+document
+  .getElementById("minimize")
+  .addEventListener("click", function minimizeWindow() {
+    ipcRenderer.send("BrowserWindow", "minimize");
+  });
 
-function minimizeWindow() {
-  ipcRenderer.send("BrowserWindow", "minimize");
-}
-
-function maximizeWindow() {
-  ipcRenderer.send("BrowserWindow", "maximize");
-}
+document
+  .getElementById("maximize")
+  .addEventListener("click", function maximizeWindow() {
+    ipcRenderer.send("BrowserWindow", "maximize");
+  });
