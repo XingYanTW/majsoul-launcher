@@ -3,6 +3,11 @@ const isPlaying = (sound) =>
 
 const random = (min, max) => ~~(Math.random() * (max - min + 1)) + min;
 
+const gameWeb = {
+  JP: { url: "https://game.mahjongsoul.com/", destination: "日本" },
+  TW: { url: "https://game.maj-soul.com/1/", destination: "台灣" },
+};
+
 const kanbanList = [
   {
     imgUrl: "assets/images/kanban/kanban01.png",
@@ -189,35 +194,52 @@ kanbanList.map((d, index) => {
   });
 });
 
-const options = document.getElementById("options");
+const options = document.querySelector("div#options");
+const optionThis = options.querySelector("div.this");
+
+options.querySelector("div.option").innerHTML = Object.entries(gameWeb)
+  .map(([tag, data]) => `<div tag="${tag}">${data.destination}</div>`)
+  .join("");
+
 const option = options.querySelectorAll(".option>*");
 const gameEl = document.getElementById("game");
 
 document.getElementById("start").addEventListener("click", () => {
   gameEl.classList.add("playing");
   kanbanAudio.pause();
-  gameEl.innerHTML = `<div id="load"><div class="loading"></div></div><iframe class="gameIng" type="text/html" src="https://game.mahjongsoul.com/index.html">`;
+  gameEl.innerHTML = `<div id="load"><div class="loading"></div></div><iframe class="gameIng" type="text/html" src="${
+    gameWeb[optionThis.getAttribute("tag")]?.url || gameWeb["TW"].url
+  }">`;
 });
 document.addEventListener(
   "keydown",
   (e) => {
     switch (e.code) {
       case "F11":
-        if (document.fullscreenEnabled) document.exitFullscreen();
-        else document.querySelector("#game iframe")?.requestFullscreen();
+        if (!!document.fullscreenElement)
+          document.exitFullscreen().catch(() => void 0);
+        else document.querySelector("#game .gameIng")?.requestFullscreen();
         break;
     }
   },
   false
 );
 
-if (localStorage.getItem("area"))
-  options.querySelector(".this").innerText = localStorage.getItem("area");
+if (Object.keys(gameWeb).includes(localStorage.getItem("area"))) {
+  let area = localStorage.getItem("area");
+  optionThis.innerText = gameWeb[area]?.destination;
+  optionThis.setAttribute("tag", area);
+}
 
 option.forEach((el) =>
   el.addEventListener("click", (el) => {
-    options.querySelector(".this").innerHTML = el.target.innerHTML;
-    localStorage.setItem("area", el.target.innerText);
+    let tag = el.target.getAttribute("tag");
+    if (!Object.keys(gameWeb).includes(tag)) tag = "TW";
+
+    optionThis.innerHTML = gameWeb[tag].destination;
+    optionThis.setAttribute("tag", tag);
+    localStorage.setItem("area", tag);
+
     option.forEach((el) => el.classList.remove("active"));
     el.target.classList.add("active");
   })
